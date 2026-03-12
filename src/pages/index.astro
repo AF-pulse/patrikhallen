@@ -1,71 +1,19 @@
 ---
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("insights");
 ---
-
-<style>
-
-.hero {
-  padding:120px 40px 80px 40px;
-  max-width:900px;
-  margin:auto;
-  font-family: system-ui;
-}
-
-.hero h1 {
-  font-size:48px;
-  margin-bottom:20px;
-}
-
-.hero p {
-  font-size:22px;
-  color:#444;
-  line-height:1.5;
-}
-
-.signature {
-  margin-top:40px;
-  font-size:16px;
-  color:#666;
-}
-
-.section {
-  max-width:900px;
-  margin:auto;
-  padding:60px 40px;
-}
-
-</style>
-
-
-<div class="hero">
-
-<h1>Perspectives</h1>
-
-<p>
-Ideas on structure, transformation and execution.
-</p>
-
-<div class="signature">
-
-Patrik Hallén<br>
-Member of Andersen Consulting
-
-</div>
-
-</div>
-
-
-<div class="section">
 
 <h2>Featured insights</h2>
 
 <ul>
+{posts.map(post => (
 
 <li>
-<a href="/insights/structure-first">
-Structure before transformation
+<a href={`/insights/${post.slug}/`}>
+{post.data.title}
 </a>
 </li>
 
+))}
 </ul>
-
-</div>
