@@ -28,6 +28,28 @@ const files = fs
   .readdirSync(CONTENT_DIR)
   .filter((f) => f.endsWith(".md") || f.endsWith(".mdx"));
 
+function wrapTitle(title, maxChars = 32) {
+
+  const words = title.split(" ");
+  let lines = [];
+  let current = "";
+
+  for (const word of words) {
+
+    if ((current + word).length > maxChars) {
+      lines.push(current.trim());
+      current = word + " ";
+    } else {
+      current += word + " ";
+    }
+
+  }
+
+  lines.push(current.trim());
+  return lines;
+
+}
+
 async function generate() {
 
   for (const file of files) {
@@ -36,8 +58,9 @@ async function generate() {
     const content = fs.readFileSync(filepath, "utf8");
 
     const parsed = matter(content);
+
     const title = parsed.data.title;
-    const topic = parsed.data.topic || "Perspectives";
+    const topic = parsed.data.topic || "Perspective";
 
     if (!title) {
       console.log("Skipping (no title):", file);
@@ -52,18 +75,23 @@ async function generate() {
       continue;
     }
 
+    const titleLines = wrapTitle(title);
+
     const svg = await satori(
       {
         type: "div",
         props: {
+
           style: {
             width: "1200px",
             height: "630px",
             display: "flex",
             flexDirection: "row",
-            background: "#f5f5f5",
+            background:
+              "linear-gradient(135deg,#f6f6f6 0%,#f2f2f2 40%,#ededed 100%)",
             fontFamily: "Inter"
           },
+
           children: [
 
             // Andersen accent bar
@@ -78,79 +106,108 @@ async function generate() {
               }
             },
 
-            // Content area
+            // Content container
             {
               type: "div",
               props: {
+
                 style: {
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
-                  paddingLeft: "100px",
+                  paddingLeft: "90px",
                   paddingRight: "80px",
                   paddingTop: "80px",
                   paddingBottom: "80px",
                   flex: 1
                 },
+
                 children: [
 
+                  // Topic badge
                   {
                     type: "div",
                     props: {
+
                       style: {
+                        display: "inline-flex",
+                        alignItems: "center",
                         fontSize: 18,
-                        letterSpacing: 3,
+                        letterSpacing: 2,
                         textTransform: "uppercase",
-                        color: "#777",
-                        marginBottom: 30
+                        color: "#c8102e",
+                        marginBottom: 28,
+                        fontWeight: 600
                       },
+
                       children: topic
+
                     }
                   },
 
+                  // Title block
                   {
                     type: "div",
                     props: {
-                      style: {
-                        fontSize: 64,
-                        lineHeight: 1.15,
-                        fontWeight: 600,
-                        color: "#222",
-                        maxWidth: 880
-                      },
-                      children: title
-                    }
-                  },
 
-                  {
-                    type: "div",
-                    props: {
                       style: {
                         display: "flex",
                         flexDirection: "column",
-                        marginTop: 40,
-                        fontSize: 26,
-                        color: "#555"
+                        gap: 8,
+                        marginBottom: 40
                       },
+
+                      children: titleLines.map((line) => ({
+                        type: "div",
+                        props: {
+                          style: {
+                            fontSize: 64,
+                            fontWeight: 600,
+                            lineHeight: 1.1,
+                            color: "#222"
+                          },
+                          children: line
+                        }
+                      }))
+
+                    }
+                  },
+
+                  // Author
+                  {
+                    type: "div",
+                    props: {
+
+                      style: {
+                        fontSize: 26,
+                        color: "#555",
+                        display: "flex",
+                        flexDirection: "column"
+                      },
+
                       children: [
                         "A perspective from Patrik Hallén",
                         {
                           type: "div",
                           props: {
-                            children: "Member of Andersen Consulting"
+                            children: "Partner at Andersen Consulting"
                           }
                         }
                       ]
+
                     }
                   }
 
                 ]
+
               }
             }
 
           ]
+
         }
       },
+
       {
         width: 1200,
         height: 630,
