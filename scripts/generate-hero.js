@@ -39,25 +39,21 @@ const topicColors = {
 /* ---------- Title wrapping ---------- */
 
 function wrapTitle(title, maxChars = 32) {
-
   const words = title.split(" ");
   let lines = [];
   let current = "";
 
   for (const word of words) {
-
     if ((current + word).length > maxChars) {
       lines.push(current.trim());
       current = word + " ";
     } else {
       current += word + " ";
     }
-
   }
 
   lines.push(current.trim());
   return lines;
-
 }
 
 /* ---------- Generator ---------- */
@@ -82,11 +78,6 @@ async function generate() {
     const slug = file.replace(/\.mdx?$/, "");
     const heroPath = path.join(OUTPUT_DIR, slug + ".png");
 
-    if (fs.existsSync(heroPath)) {
-      console.log("Hero already exists:", slug);
-      continue;
-    }
-
     const accent = topicColors[topic] || "#c8102e";
 
     const titleLines = wrapTitle(title);
@@ -103,7 +94,8 @@ async function generate() {
             flexDirection: "row",
             background:
               "linear-gradient(135deg,#f7f7f7 0%,#f2f2f2 45%,#ececec 100%)",
-            fontFamily: "Inter"
+            fontFamily: "Inter",
+            position: "relative"
           },
 
           children: [
@@ -145,7 +137,6 @@ async function generate() {
                   {
                     type: "div",
                     props: {
-
                       style: {
                         fontSize: 18,
                         letterSpacing: 2,
@@ -154,9 +145,7 @@ async function generate() {
                         marginBottom: 28,
                         fontWeight: 600
                       },
-
                       children: topic
-
                     }
                   },
 
@@ -189,7 +178,7 @@ async function generate() {
                     }
                   },
 
-                  /* Author */
+                  /* Author block */
 
                   {
                     type: "div",
@@ -202,15 +191,15 @@ async function generate() {
                         flexDirection: "column"
                       },
 
+                      children: [
 
-                      
                         {
                           type: "div",
                           props: {
                             children: "A perspective from Patrik Hallén"
                           }
                         },
-                      
+
                         {
                           type: "div",
                           props: {
@@ -233,7 +222,7 @@ async function generate() {
                             ]
                           }
                         }
-                      
+
                       ]
 
                     }
@@ -241,6 +230,22 @@ async function generate() {
 
                 ]
 
+              }
+            },
+
+            /* Footer */
+
+            {
+              type: "div",
+              props: {
+                style: {
+                  position: "absolute",
+                  bottom: "28px",
+                  right: "40px",
+                  fontSize: 20,
+                  color: "#888"
+                },
+                children: "patrikhallen.com"
               }
             }
 
