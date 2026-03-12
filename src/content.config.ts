@@ -8,7 +8,7 @@ const insights = defineCollection({
     title: z.string(),
     topic: z.string(),
     summary: z.string(),
-    date: z.string()
+    date: z.date()
   })
 });
 
