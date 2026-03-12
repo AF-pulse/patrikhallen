@@ -8,13 +8,21 @@ const CONTENT_DIR = "./src/content/insights";
 const TEMPLATE_PATH = "./templates/hero.html";
 const OUTPUT_DIR = "./public/heroes";
 
+/* ensure hero directory exists */
+
 if (!fs.existsSync(OUTPUT_DIR)) {
 fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
+/* load template */
+
 const template = fs.readFileSync(TEMPLATE_PATH, "utf8");
 
-const files = fs.readdirSync(CONTENT_DIR).filter(f => f.endsWith(".md"));
+/* read all insight markdown files */
+
+const files = fs
+.readdirSync(CONTENT_DIR)
+.filter((f) => f.endsWith(".md") || f.endsWith(".mdx"));
 
 async function generate() {
 
@@ -22,15 +30,27 @@ for (const file of files) {
 
 ```
 const filepath = path.join(CONTENT_DIR, file);
-const content = fs.readFileSync(filepath, "utf8");
 
-const { data } = matter(content);
+const raw = fs.readFileSync(filepath, "utf8");
+
+const { data } = matter(raw);
 
 const title = data.title;
 
-if (!title) continue;
+if (!title) {
+  console.log("Skipping (no title):", file);
+  continue;
+}
 
-const html = template.replace("{{title}}", title);
+const topic = data.topic || "Perspectives";
+
+/* inject variables into template */
+
+let html = template
+  .replace("{{title}}", title)
+  .replace("{{topic}}", topic);
+
+/* render html -> svg */
 
 const svg = await satori(
   {
@@ -46,13 +66,22 @@ const svg = await satori(
   }
 );
 
+/* svg -> png */
+
 const resvg = new Resvg(svg);
 
 const png = resvg.render().asPng();
 
-const slug = file.replace(".md", "");
+/* slug */
 
-const outputPath = path.join(OUTPUT_DIR, `${slug}.png`);
+const slug = file
+  .replace(".md", "")
+  .replace(".mdx", "");
+
+const outputPath = path.join(
+  OUTPUT_DIR,
+  `${slug}.png`
+);
 
 fs.writeFileSync(outputPath, png);
 
@@ -60,8 +89,6 @@ console.log("Hero generated:", slug);
 ```
 
 }
-
 }
 
 generate();
-
