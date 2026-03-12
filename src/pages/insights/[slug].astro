@@ -7,7 +7,7 @@ export async function getStaticPaths() {
 
   return posts.map((post) => ({
     params: { slug: post.id },
-    props: { post: post }
+    props: { post }
   }));
 }
 
@@ -22,13 +22,42 @@ const { Content } = await render(post);
 <title>{post.data.title}</title>
 
 <meta property="og:title" content={post.data.title} />
+<meta property="og:description" content={post.data.summary} />
 <meta property="og:image" content={`/heroes/${post.id}.png`} />
+
+<style>
+
+body{
+font-family: system-ui;
+max-width: 720px;
+margin:auto;
+padding:60px 20px;
+line-height:1.7;
+font-size:18px;
+}
+
+.hero{
+width:100%;
+border-radius:10px;
+margin-bottom:40px;
+}
+
+h1{
+font-size:40px;
+margin-top:20px;
+}
+
+p{
+margin:18px 0;
+}
+
+</style>
 
 </head>
 
 <body>
 
-<h1>{post.data.title}</h1>
+<img class="hero" src={`/heroes/${post.id}.png`} alt="hero image" />
 
 <Content />
 
