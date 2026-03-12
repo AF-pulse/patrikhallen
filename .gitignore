@@ -3,6 +3,8 @@ dist/
 # generated types
 .astro/
 
+public/heroes/
+
 # dependencies
 node_modules/
 
