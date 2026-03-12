@@ -13,6 +13,7 @@
     "generate:heroes": "node scripts/generate-hero.js"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.17",
     "@astrojs/sitemap": "^3.7.1",
     "@resvg/resvg-js": "^2.6.2",
     "astro": "^6.0.3",
