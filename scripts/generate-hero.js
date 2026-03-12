@@ -6,7 +6,7 @@ import { Resvg } from "@resvg/resvg-js";
 
 const CONTENT_DIR = "./src/content/insights";
 const OUTPUT_DIR = "./public/heroes";
-const FONT_PATH = "./assets/fonts/Inter_18pt-Regular.ttf";
+const FONT_PATH = "./fonts/Inter-Regular.ttf";
 
 if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
@@ -100,6 +100,8 @@ async function generate() {
               type: "div",
               props: {
                 style: {
+                  display: "flex",
+                  flexDirection: "column",
                   marginTop: 40,
                   fontSize: 26,
                   color: "#555"
