@@ -12,6 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.0.3"
+    "astro": "^6.0.3",
+    "satori": "^0.10.0",
+    "@resvg/resvg-js": "^2.4.0"
   }
 }
