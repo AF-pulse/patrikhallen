@@ -28,35 +28,33 @@ const files = fs
   .readdirSync(CONTENT_DIR)
   .filter((f) => f.endsWith(".md") || f.endsWith(".mdx"));
 
-/* ---------- Topic colors ---------- */
-
 const topicColors = {
   "Enterprise Architecture": "#c8102e",
   "Strategy Execution": "#8a1538",
   "Operating Model": "#7c2d12"
 };
 
-/* ---------- Title wrapping ---------- */
-
 function wrapTitle(title, maxChars = 32) {
+
   const words = title.split(" ");
   let lines = [];
   let current = "";
 
   for (const word of words) {
+
     if ((current + word).length > maxChars) {
       lines.push(current.trim());
       current = word + " ";
     } else {
       current += word + " ";
     }
+
   }
 
   lines.push(current.trim());
   return lines;
-}
 
-/* ---------- Generator ---------- */
+}
 
 async function generate() {
 
@@ -79,7 +77,6 @@ async function generate() {
     const heroPath = path.join(OUTPUT_DIR, slug + ".png");
 
     const accent = topicColors[topic] || "#c8102e";
-
     const titleLines = wrapTitle(title);
 
     const svg = await satori(
@@ -92,15 +89,12 @@ async function generate() {
             height: "630px",
             display: "flex",
             flexDirection: "row",
-            background:
-              "linear-gradient(135deg,#f7f7f7 0%,#f2f2f2 45%,#ececec 100%)",
+            background: "linear-gradient(135deg,#f7f7f7 0%,#f2f2f2 45%,#ececec 100%)",
             fontFamily: "Inter",
             position: "relative"
           },
 
           children: [
-
-            /* Accent bar */
 
             {
               type: "div",
@@ -112,8 +106,6 @@ async function generate() {
                 }
               }
             },
-
-            /* Content container */
 
             {
               type: "div",
@@ -132,8 +124,6 @@ async function generate() {
 
                 children: [
 
-                  /* Topic badge */
-
                   {
                     type: "div",
                     props: {
@@ -149,19 +139,15 @@ async function generate() {
                     }
                   },
 
-                  /* Title */
-
                   {
                     type: "div",
                     props: {
-
                       style: {
                         display: "flex",
                         flexDirection: "column",
                         gap: 8,
                         marginBottom: 40
                       },
-
                       children: titleLines.map((line) => ({
                         type: "div",
                         props: {
@@ -174,11 +160,8 @@ async function generate() {
                           children: line
                         }
                       }))
-
                     }
                   },
-
-                  /* Author block */
 
                   {
                     type: "div",
@@ -232,8 +215,6 @@ async function generate() {
 
               }
             },
-
-            /* Footer */
 
             {
               type: "div",
