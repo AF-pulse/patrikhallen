@@ -17,17 +17,21 @@ function readingTime(text){
 
 <style>
 
+:root{
+--accent:#c8102e;
+}
+
 body{
 font-family: system-ui, -apple-system, sans-serif;
 max-width: 900px;
 margin:auto;
 padding:60px 20px;
-line-height:1.6;
+line-height:1.65;
 color:#111;
 }
 
 header{
-margin-bottom:60px;
+margin-bottom:70px;
 }
 
 h1{
@@ -40,14 +44,21 @@ color:#666;
 margin-top:10px;
 }
 
+.author{
+color:#777;
+margin-top:20px;
+}
+
 .article{
-margin-bottom:70px;
+margin-bottom:80px;
 }
 
 .article img{
 width:100%;
 border-radius:12px;
 margin-bottom:20px;
+aspect-ratio:16/9;
+object-fit:cover;
 }
 
 .article h2{
@@ -68,10 +79,11 @@ color:#444;
 a{
 text-decoration:none;
 color:inherit;
+display:block;
 }
 
 a:hover h2{
-text-decoration:underline;
+color:var(--accent);
 }
 
 .tag{
@@ -81,6 +93,18 @@ letter-spacing:.05em;
 text-transform:uppercase;
 color:#666;
 margin-right:10px;
+}
+
+/* Featured article */
+
+.featured{
+border-left:6px solid var(--accent);
+padding-left:24px;
+margin-bottom:100px;
+}
+
+.featured h2{
+font-size:36px;
 }
 
 </style>
@@ -97,7 +121,7 @@ margin-right:10px;
 Ideas on structure, transformation and execution.
 </p>
 
-<p style="color:#777;margin-top:20px;">
+<p class="author">
 Patrik Hallén  
 <br>
 Member of Andersen Consulting
@@ -105,13 +129,13 @@ Member of Andersen Consulting
 
 </header>
 
-{posts.map(post => {
+{posts.map((post, index) => {
 
 const minutes = readingTime(post.body);
 
 return (
 
-<article class="article">
+<article class={index === 0 ? "article featured" : "article"}>
 
 <a href={`/insights/${post.id}`}>
 
