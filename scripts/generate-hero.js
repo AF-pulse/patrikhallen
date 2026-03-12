@@ -6,6 +6,7 @@ import { Resvg } from "@resvg/resvg-js";
 
 const CONTENT_DIR = "./src/content/insights";
 const OUTPUT_DIR = "./public/heroes";
+const FONT_PATH = "./assets/fonts/Inter-VariableFont_opsz,wght.ttf";
 
 if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
@@ -15,6 +16,13 @@ if (!fs.existsSync(CONTENT_DIR)) {
   console.log("Insights directory not found:", CONTENT_DIR);
   process.exit(0);
 }
+
+if (!fs.existsSync(FONT_PATH)) {
+  console.log("Font not found:", FONT_PATH);
+  process.exit(1);
+}
+
+const fontData = fs.readFileSync(FONT_PATH);
 
 const files = fs
   .readdirSync(CONTENT_DIR)
@@ -29,6 +37,7 @@ async function generate() {
 
     const parsed = matter(content);
     const title = parsed.data.title;
+    const topic = parsed.data.topic || "Perspectives";
 
     if (!title) {
       console.log("Skipping (no title):", file);
@@ -50,33 +59,50 @@ async function generate() {
           style: {
             width: "1200px",
             height: "630px",
-            background: "#111",
-            color: "white",
+            background: "#f5f5f5",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            padding: "120px",
-            fontFamily: "Arial"
+            padding: "110px",
+            fontFamily: "Inter"
           },
           children: [
+
             {
               type: "div",
               props: {
                 style: {
-                  fontSize: 72,
-                  lineHeight: 1.1,
-                  fontWeight: 600
+                  fontSize: 18,
+                  letterSpacing: 3,
+                  textTransform: "uppercase",
+                  color: "#777",
+                  marginBottom: 25
+                },
+                children: topic
+              }
+            },
+
+            {
+              type: "div",
+              props: {
+                style: {
+                  fontSize: 64,
+                  lineHeight: 1.15,
+                  fontWeight: 600,
+                  color: "#222",
+                  maxWidth: 900
                 },
                 children: title
               }
             },
+
             {
               type: "div",
               props: {
                 style: {
                   marginTop: 40,
-                  fontSize: 28,
-                  opacity: 0.7
+                  fontSize: 26,
+                  color: "#555"
                 },
                 children: [
                   "A perspective from Patrik Hallén",
@@ -89,13 +115,20 @@ async function generate() {
                 ]
               }
             }
+
           ]
         }
       },
       {
         width: 1200,
         height: 630,
-        fonts: []
+        fonts: [
+          {
+            name: "Inter",
+            data: fontData,
+            style: "normal"
+          }
+        ]
       }
     );
 
