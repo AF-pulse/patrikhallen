@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "npm run generate:heroes && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "generate:heroes": "node scripts/generate-hero.js"
