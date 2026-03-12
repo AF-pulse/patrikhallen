@@ -4,7 +4,7 @@ title: Transformation fails when structure is missing
 topic: Strategy Execution
 summary: Transformation programs often fail not because of strategy but because the organization cannot absorb change.
 date: 2026-03-12
-----------------
+---
 
 # Transformation fails when structure is missing
 
