@@ -1,10 +1,9 @@
 ---
-
 title: Structure before transformation
 topic: Enterprise Architecture
 summary: Why many transformation initiatives stall when structural clarity is missing.
 date: 2026-03-12
-----------------
+---
 
 # Structure before transformation
 
