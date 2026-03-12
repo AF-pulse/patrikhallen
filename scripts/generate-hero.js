@@ -38,7 +38,7 @@ async function generate() {
     }
 
     const slug = file.replace(/\.mdx?$/, "");
-    const heroPath = path.join(OUTPUT_DIR, `${slug}.png`);
+    const heroPath = path.join(OUTPUT_DIR, slug + ".png");
 
     // Skip if hero already exists
     if (fs.existsSync(heroPath)) {
@@ -67,7 +67,7 @@ async function generate() {
 
     fs.writeFileSync(heroPath, png);
 
-    console.log("Hero generated:", slug);
+    console.log("Hero generated: " + slug);
   }
 }
 
