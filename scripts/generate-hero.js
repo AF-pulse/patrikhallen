@@ -35,7 +35,7 @@ const slug = file
   .replace(".md", "")
   .replace(".mdx", "");
 
-const heroPath = path.join(OUTPUT_DIR, `${slug}.png`);
+const heroPath = path.join(OUTPUT_DIR, slug + ".png");
 
 /* skip if hero already exists AND article unchanged */
 
