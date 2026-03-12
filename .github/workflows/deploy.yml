@@ -29,6 +29,9 @@ jobs:
       - name: Generate hero images
         run: npm run generate:heroes
 
+      - name: Clear Astro cache
+        run: rm -rf .astro
+
       - name: Build Astro
         run: npm run build
 
