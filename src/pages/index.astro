@@ -4,6 +4,9 @@ import { getCollection } from "astro:content";
 const posts = (await getCollection("insights"))
   .sort((a,b) => b.data.date - a.data.date);
 
+const featured = posts[0];
+const rest = posts.slice(1);
+
 function readingTime(text){
   const words = text.split(/\s+/).length;
   return Math.ceil(words / 200);
@@ -17,16 +20,12 @@ function readingTime(text){
 
 <style>
 
-:root{
---accent:#c8102e;
-}
-
 body{
-font-family: system-ui, -apple-system, sans-serif;
-max-width: 900px;
+font-family: system-ui,-apple-system,sans-serif;
+max-width:1000px;
 margin:auto;
 padding:60px 20px;
-line-height:1.65;
+line-height:1.6;
 color:#111;
 }
 
@@ -35,7 +34,7 @@ margin-bottom:70px;
 }
 
 h1{
-font-size:48px;
+font-size:52px;
 margin:0;
 }
 
@@ -44,26 +43,15 @@ color:#666;
 margin-top:10px;
 }
 
-.author{
-color:#777;
-margin-top:20px;
-}
-
-.article{
-margin-bottom:80px;
-}
-
-.article img{
+.featured img{
 width:100%;
 border-radius:12px;
 margin-bottom:20px;
-aspect-ratio:16/9;
-object-fit:cover;
 }
 
-.article h2{
-font-size:28px;
-margin:0 0 10px 0;
+.featured h2{
+font-size:40px;
+margin:10px 0;
 }
 
 .meta{
@@ -74,37 +62,40 @@ margin-bottom:12px;
 
 .summary{
 color:#444;
+max-width:700px;
 }
 
-a{
-text-decoration:none;
-color:inherit;
-display:block;
+.list article{
+margin-top:60px;
 }
 
-a:hover h2{
-color:var(--accent);
+.list img{
+width:100%;
+border-radius:12px;
+margin-bottom:12px;
+}
+
+.list h3{
+font-size:24px;
+margin:0;
 }
 
 .tag{
-display:inline-block;
 font-size:12px;
-letter-spacing:.05em;
+letter-spacing:.06em;
 text-transform:uppercase;
 color:#666;
 margin-right:10px;
 }
 
-/* Featured article */
-
-.featured{
-border-left:6px solid var(--accent);
-padding-left:24px;
-margin-bottom:100px;
+a{
+text-decoration:none;
+color:inherit;
 }
 
-.featured h2{
-font-size:36px;
+a:hover h2,
+a:hover h3{
+text-decoration:underline;
 }
 
 </style>
@@ -121,25 +112,54 @@ font-size:36px;
 Ideas on structure, transformation and execution.
 </p>
 
-<p class="author">
-Patrik Hallén  
-<br>
+<p style="color:#777;margin-top:20px;">
+Patrik Hallén<br>
 Member of Andersen Consulting
 </p>
 
 </header>
 
-{posts.map((post, index) => {
+<!-- Featured article -->
 
-const minutes = readingTime(post.body);
+<section class="featured">
 
-return (
+<a href={`/insights/${featured.id}`}>
 
-<article class={index === 0 ? "article featured" : "article"}>
+<img src={`/heroes/${featured.id}.png`} />
+
+<div class="meta">
+
+<span class="tag">{featured.data.topic}</span>
+
+<span>
+{new Date(featured.data.date).toLocaleDateString("en-GB")}
+</span>
+
+<span> • {readingTime(featured.body)} min read</span>
+
+</div>
+
+<h2>{featured.data.title}</h2>
+
+<p class="summary">
+{featured.data.summary}
+</p>
+
+</a>
+
+</section>
+
+<!-- Remaining articles -->
+
+<section class="list">
+
+{rest.map(post => (
+
+<article>
 
 <a href={`/insights/${post.id}`}>
 
-<img src={`/heroes/${post.id}.png`} alt="hero" />
+<img src={`/heroes/${post.id}.png`} />
 
 <div class="meta">
 
@@ -149,11 +169,11 @@ return (
 {new Date(post.data.date).toLocaleDateString("en-GB")}
 </span>
 
-<span> • {minutes} min read</span>
+<span> • {readingTime(post.body)} min read</span>
 
 </div>
 
-<h2>{post.data.title}</h2>
+<h3>{post.data.title}</h3>
 
 <p class="summary">
 {post.data.summary}
@@ -163,10 +183,9 @@ return (
 
 </article>
 
-)
+))}
 
-})}
+</section>
 
 </body>
-
 </html>
