@@ -202,14 +202,38 @@ async function generate() {
                         flexDirection: "column"
                       },
 
-                      children: [
-                        "A perspective from Patrik Hallén",
+
+                      
                         {
                           type: "div",
                           props: {
-                            children: "Partner at Andersen Consulting"
+                            children: "A perspective from Patrik Hallén"
+                          }
+                        },
+                      
+                        {
+                          type: "div",
+                          props: {
+                            style: {
+                              display: "flex",
+                              gap: 6
+                            },
+                            children: [
+                              "Partner at ",
+                              {
+                                type: "span",
+                                props: {
+                                  style: {
+                                    color: accent,
+                                    fontWeight: 600
+                                  },
+                                  children: "Andersen Consulting"
+                                }
+                              }
+                            ]
                           }
                         }
+                      
                       ]
 
                     }
