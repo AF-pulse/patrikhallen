@@ -5,7 +5,6 @@ import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 
 const CONTENT_DIR = "./src/content/insights";
-const TEMPLATE_PATH = "./templates/hero.html";
 const OUTPUT_DIR = "./public/heroes";
 
 if (!fs.existsSync(OUTPUT_DIR)) {
@@ -13,11 +12,9 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 }
 
 if (!fs.existsSync(CONTENT_DIR)) {
-  console.log("Insights directory not found: " + CONTENT_DIR);
+  console.log("Insights directory not found:", CONTENT_DIR);
   process.exit(0);
 }
-
-const template = fs.readFileSync(TEMPLATE_PATH, "utf8");
 
 const files = fs
   .readdirSync(CONTENT_DIR)
@@ -34,7 +31,7 @@ async function generate() {
     const title = parsed.data.title;
 
     if (!title) {
-      console.log("Skipping (no title): " + file);
+      console.log("Skipping (no title):", file);
       continue;
     }
 
@@ -42,19 +39,57 @@ async function generate() {
     const heroPath = path.join(OUTPUT_DIR, slug + ".png");
 
     if (fs.existsSync(heroPath)) {
-      console.log("Hero already exists: " + slug);
+      console.log("Hero already exists:", slug);
       continue;
     }
-
-    const html = template.replace("{{title}}", title);
 
     const svg = await satori(
       {
         type: "div",
         props: {
-          dangerouslySetInnerHTML: {
-            __html: html
-          }
+          style: {
+            width: "1200px",
+            height: "630px",
+            background: "#111",
+            color: "white",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "120px",
+            fontFamily: "Arial"
+          },
+          children: [
+            {
+              type: "div",
+              props: {
+                style: {
+                  fontSize: 72,
+                  lineHeight: 1.1,
+                  fontWeight: 600
+                },
+                children: title
+              }
+            },
+            {
+              type: "div",
+              props: {
+                style: {
+                  marginTop: 40,
+                  fontSize: 28,
+                  opacity: 0.7
+                },
+                children: [
+                  "A perspective from Patrik Hallén",
+                  {
+                    type: "div",
+                    props: {
+                      children: "Member of Andersen Consulting"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
         }
       },
       {
@@ -69,7 +104,7 @@ async function generate() {
 
     fs.writeFileSync(heroPath, png);
 
-    console.log("Hero generated: " + slug);
+    console.log("Hero generated:", slug);
 
   }
 
