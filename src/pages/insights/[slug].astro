@@ -21,6 +21,8 @@ const { Content } = await render(post);
 
 <title>{post.data.title}</title>
 
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
+
 <meta property="og:title" content={post.data.title} />
 <meta property="og:description" content={post.data.summary} />
 <meta property="og:image" content={`/heroes/${post.id}.png`} />
