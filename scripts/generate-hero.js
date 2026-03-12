@@ -1,4 +1,3 @@
-```javascript
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -14,7 +13,7 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 }
 
 if (!fs.existsSync(CONTENT_DIR)) {
-  console.log("Insights directory not found:", CONTENT_DIR);
+  console.log("Insights directory not found: " + CONTENT_DIR);
   process.exit(0);
 }
 
@@ -25,24 +24,25 @@ const files = fs
   .filter((f) => f.endsWith(".md") || f.endsWith(".mdx"));
 
 async function generate() {
+
   for (const file of files) {
+
     const filepath = path.join(CONTENT_DIR, file);
     const content = fs.readFileSync(filepath, "utf8");
 
-    const { data } = matter(content);
-    const title = data.title;
+    const parsed = matter(content);
+    const title = parsed.data.title;
 
     if (!title) {
-      console.log("Skipping (no title):", file);
+      console.log("Skipping (no title): " + file);
       continue;
     }
 
     const slug = file.replace(/\.mdx?$/, "");
     const heroPath = path.join(OUTPUT_DIR, slug + ".png");
 
-    // Skip if hero already exists
     if (fs.existsSync(heroPath)) {
-      console.log("Hero already exists:", slug);
+      console.log("Hero already exists: " + slug);
       continue;
     }
 
@@ -52,7 +52,9 @@ async function generate() {
       {
         type: "div",
         props: {
-          dangerouslySetInnerHTML: { __html: html }
+          dangerouslySetInnerHTML: {
+            __html: html
+          }
         }
       },
       {
@@ -68,7 +70,9 @@ async function generate() {
     fs.writeFileSync(heroPath, png);
 
     console.log("Hero generated: " + slug);
+
   }
+
 }
 
 generate();
