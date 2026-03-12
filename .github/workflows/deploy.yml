@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Generate hero images
+        run: npm run generate:heroes
+
       - name: Build Astro
         run: npm run build
 
