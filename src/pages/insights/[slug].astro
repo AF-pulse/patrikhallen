@@ -6,10 +6,9 @@ export async function getStaticPaths() {
   const posts = await getCollection("insights");
 
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: { post }
   }));
-
 }
 
 const { post } = Astro.props;
@@ -22,21 +21,15 @@ const { Content } = await post.render();
 <title>{post.data.title}</title>
 
 <meta property="og:title" content={post.data.title} />
-<meta property="og:image" content={`/heroes/${post.slug}.png`} />
+<meta property="og:image" content={`/heroes/${post.id}.png`} />
 
 </head>
 
 <body>
-
-<img
-  src={`/heroes/${post.slug}.png`}
-  style="width:100%;max-width:1200px;margin-bottom:40px"
-/>
 
 <h1>{post.data.title}</h1>
 
 <Content />
 
 </body>
-
 </html>
