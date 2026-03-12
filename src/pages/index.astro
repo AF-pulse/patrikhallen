@@ -1,7 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 
-const posts = await getCollection("insights");
+const posts = (await getCollection("insights"))
+  .sort((a,b) => b.data.date - a.data.date);
 ---
 
 <h2>Featured insights</h2>
@@ -10,7 +11,7 @@ const posts = await getCollection("insights");
 {posts.map(post => (
 
 <li>
-<a href={`/insights/${post.slug}/`}>
+<a href={`/insights/${post.id}`}>
 {post.data.title}
 </a>
 </li>
