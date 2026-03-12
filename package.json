@@ -13,9 +13,10 @@
     "generate:heroes": "node scripts/generate-hero.js"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.1",
+    "@resvg/resvg-js": "^2.6.2",
     "astro": "^6.0.3",
-    "satori": "^0.10.0",
-    "@resvg/resvg-js": "^2.4.0",
-    "gray-matter": "^4.0.3"
+    "gray-matter": "^4.0.3",
+    "satori": "^0.10.14"
   }
 }
