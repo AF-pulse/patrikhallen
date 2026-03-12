@@ -18,7 +18,7 @@ fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
 const template = fs.readFileSync(TEMPLATE_PATH, "utf8");
 
-/* read all insight markdown files */
+/* read insight files */
 
 const files = fs
 .readdirSync(CONTENT_DIR)
@@ -30,6 +30,26 @@ for (const file of files) {
 
 ```
 const filepath = path.join(CONTENT_DIR, file);
+
+const slug = file
+  .replace(".md", "")
+  .replace(".mdx", "");
+
+const heroPath = path.join(OUTPUT_DIR, `${slug}.png`);
+
+/* skip if hero already exists AND article unchanged */
+
+if (fs.existsSync(heroPath)) {
+
+  const heroStat = fs.statSync(heroPath);
+  const articleStat = fs.statSync(filepath);
+
+  if (heroStat.mtime >= articleStat.mtime) {
+    console.log("Hero up-to-date:", slug);
+    continue;
+  }
+
+}
 
 const raw = fs.readFileSync(filepath, "utf8");
 
@@ -44,13 +64,13 @@ if (!title) {
 
 const topic = data.topic || "Perspectives";
 
-/* inject variables into template */
+/* inject values into template */
 
 let html = template
   .replace("{{title}}", title)
   .replace("{{topic}}", topic);
 
-/* render html -> svg */
+/* render HTML -> SVG */
 
 const svg = await satori(
   {
@@ -66,29 +86,19 @@ const svg = await satori(
   }
 );
 
-/* svg -> png */
+/* SVG -> PNG */
 
 const resvg = new Resvg(svg);
 
 const png = resvg.render().asPng();
 
-/* slug */
-
-const slug = file
-  .replace(".md", "")
-  .replace(".mdx", "");
-
-const outputPath = path.join(
-  OUTPUT_DIR,
-  `${slug}.png`
-);
-
-fs.writeFileSync(outputPath, png);
+fs.writeFileSync(heroPath, png);
 
 console.log("Hero generated:", slug);
 ```
 
 }
+
 }
 
 generate();
