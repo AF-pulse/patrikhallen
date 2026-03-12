@@ -3,18 +3,146 @@ import { getCollection } from "astro:content";
 
 const posts = (await getCollection("insights"))
   .sort((a,b) => b.data.date - a.data.date);
+
+function readingTime(text){
+  const words = text.split(/\s+/).length;
+  return Math.ceil(words / 200);
+}
 ---
 
-<h2>Featured insights</h2>
+<html>
+<head>
 
-<ul>
-{posts.map(post => (
+<title>Perspectives — Patrik Hallén</title>
 
-<li>
+<style>
+
+body{
+font-family: system-ui, -apple-system, sans-serif;
+max-width: 900px;
+margin:auto;
+padding:60px 20px;
+line-height:1.6;
+color:#111;
+}
+
+header{
+margin-bottom:60px;
+}
+
+h1{
+font-size:48px;
+margin:0;
+}
+
+.subtitle{
+color:#666;
+margin-top:10px;
+}
+
+.article{
+margin-bottom:70px;
+}
+
+.article img{
+width:100%;
+border-radius:12px;
+margin-bottom:20px;
+}
+
+.article h2{
+font-size:28px;
+margin:0 0 10px 0;
+}
+
+.meta{
+font-size:14px;
+color:#777;
+margin-bottom:12px;
+}
+
+.summary{
+color:#444;
+}
+
+a{
+text-decoration:none;
+color:inherit;
+}
+
+a:hover h2{
+text-decoration:underline;
+}
+
+.tag{
+display:inline-block;
+font-size:12px;
+letter-spacing:.05em;
+text-transform:uppercase;
+color:#666;
+margin-right:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>Perspectives</h1>
+
+<p class="subtitle">
+Ideas on structure, transformation and execution.
+</p>
+
+<p style="color:#777;margin-top:20px;">
+Patrik Hallén  
+<br>
+Member of Andersen Consulting
+</p>
+
+</header>
+
+{posts.map(post => {
+
+const minutes = readingTime(post.body);
+
+return (
+
+<article class="article">
+
 <a href={`/insights/${post.id}`}>
-{post.data.title}
-</a>
-</li>
 
-))}
-</ul>
+<img src={`/heroes/${post.id}.png`} alt="hero" />
+
+<div class="meta">
+
+<span class="tag">{post.data.topic}</span>
+
+<span>
+{new Date(post.data.date).toLocaleDateString("en-GB")}
+</span>
+
+<span> • {minutes} min read</span>
+
+</div>
+
+<h2>{post.data.title}</h2>
+
+<p class="summary">
+{post.data.summary}
+</p>
+
+</a>
+
+</article>
+
+)
+
+})}
+
+</body>
+
+</html>
