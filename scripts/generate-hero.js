@@ -59,61 +59,91 @@ async function generate() {
           style: {
             width: "1200px",
             height: "630px",
-            background: "#f5f5f5",
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            padding: "110px",
+            flexDirection: "row",
+            background: "#f5f5f5",
             fontFamily: "Inter"
           },
           children: [
 
+            // Andersen accent bar
             {
               type: "div",
               props: {
                 style: {
-                  fontSize: 18,
-                  letterSpacing: 3,
-                  textTransform: "uppercase",
-                  color: "#777",
-                  marginBottom: 25
-                },
-                children: topic
+                  width: "14px",
+                  height: "100%",
+                  background: "#c8102e"
+                }
               }
             },
 
-            {
-              type: "div",
-              props: {
-                style: {
-                  fontSize: 64,
-                  lineHeight: 1.15,
-                  fontWeight: 600,
-                  color: "#222",
-                  maxWidth: 900
-                },
-                children: title
-              }
-            },
-
+            // Content area
             {
               type: "div",
               props: {
                 style: {
                   display: "flex",
                   flexDirection: "column",
-                  marginTop: 40,
-                  fontSize: 26,
-                  color: "#555"
+                  justifyContent: "center",
+                  paddingLeft: "100px",
+                  paddingRight: "80px",
+                  paddingTop: "80px",
+                  paddingBottom: "80px",
+                  flex: 1
                 },
                 children: [
-                  "A perspective from Patrik Hallén",
+
                   {
                     type: "div",
                     props: {
-                      children: "Member of Andersen Consulting"
+                      style: {
+                        fontSize: 18,
+                        letterSpacing: 3,
+                        textTransform: "uppercase",
+                        color: "#777",
+                        marginBottom: 30
+                      },
+                      children: topic
+                    }
+                  },
+
+                  {
+                    type: "div",
+                    props: {
+                      style: {
+                        fontSize: 64,
+                        lineHeight: 1.15,
+                        fontWeight: 600,
+                        color: "#222",
+                        maxWidth: 880
+                      },
+                      children: title
+                    }
+                  },
+
+                  {
+                    type: "div",
+                    props: {
+                      style: {
+                        display: "flex",
+                        flexDirection: "column",
+                        marginTop: 40,
+                        fontSize: 26,
+                        color: "#555"
+                      },
+                      children: [
+                        "A perspective from Patrik Hallén",
+                        {
+                          type: "div",
+                          props: {
+                            children: "Member of Andersen Consulting"
+                          }
+                        }
+                      ]
                     }
                   }
+
                 ]
               }
             }
