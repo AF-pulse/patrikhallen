@@ -1,26 +1,71 @@
 ---
-
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Perspectives</h1>
-		
-		<p>
-		Ideas on structure, transformation and execution.
-		</p>
-		
-		<p>
-		Patrik Hallén<br>
-		Member of Andersen Consulting
-		</p>
-	</body>
-</html>
+<style>
+
+.hero {
+  padding:120px 40px 80px 40px;
+  max-width:900px;
+  margin:auto;
+  font-family: system-ui;
+}
+
+.hero h1 {
+  font-size:48px;
+  margin-bottom:20px;
+}
+
+.hero p {
+  font-size:22px;
+  color:#444;
+  line-height:1.5;
+}
+
+.signature {
+  margin-top:40px;
+  font-size:16px;
+  color:#666;
+}
+
+.section {
+  max-width:900px;
+  margin:auto;
+  padding:60px 40px;
+}
+
+</style>
+
+
+<div class="hero">
+
+<h1>Perspectives</h1>
+
+<p>
+Ideas on structure, transformation and execution.
+</p>
+
+<div class="signature">
+
+Patrik Hallén<br>
+Member of Andersen Consulting
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>Featured insights</h2>
+
+<ul>
+
+<li>
+<a href="/insights/structure-first">
+Structure before transformation
+</a>
+</li>
+
+</ul>
+
+</div>
