@@ -28,6 +28,16 @@ const files = fs
   .readdirSync(CONTENT_DIR)
   .filter((f) => f.endsWith(".md") || f.endsWith(".mdx"));
 
+/* ---------- Topic colors ---------- */
+
+const topicColors = {
+  "Enterprise Architecture": "#c8102e",
+  "Strategy Execution": "#8a1538",
+  "Operating Model": "#7c2d12"
+};
+
+/* ---------- Title wrapping ---------- */
+
 function wrapTitle(title, maxChars = 32) {
 
   const words = title.split(" ");
@@ -49,6 +59,8 @@ function wrapTitle(title, maxChars = 32) {
   return lines;
 
 }
+
+/* ---------- Generator ---------- */
 
 async function generate() {
 
@@ -75,6 +87,8 @@ async function generate() {
       continue;
     }
 
+    const accent = topicColors[topic] || "#c8102e";
+
     const titleLines = wrapTitle(title);
 
     const svg = await satori(
@@ -88,25 +102,27 @@ async function generate() {
             display: "flex",
             flexDirection: "row",
             background:
-              "linear-gradient(135deg,#f6f6f6 0%,#f2f2f2 40%,#ededed 100%)",
+              "linear-gradient(135deg,#f7f7f7 0%,#f2f2f2 45%,#ececec 100%)",
             fontFamily: "Inter"
           },
 
           children: [
 
-            // Andersen accent bar
+            /* Accent bar */
+
             {
               type: "div",
               props: {
                 style: {
                   width: "14px",
                   height: "100%",
-                  background: "#c8102e"
+                  background: accent
                 }
               }
             },
 
-            // Content container
+            /* Content container */
+
             {
               type: "div",
               props: {
@@ -124,18 +140,17 @@ async function generate() {
 
                 children: [
 
-                  // Topic badge
+                  /* Topic badge */
+
                   {
                     type: "div",
                     props: {
 
                       style: {
-                        display: "inline-flex",
-                        alignItems: "center",
                         fontSize: 18,
                         letterSpacing: 2,
                         textTransform: "uppercase",
-                        color: "#c8102e",
+                        color: accent,
                         marginBottom: 28,
                         fontWeight: 600
                       },
@@ -145,7 +160,8 @@ async function generate() {
                     }
                   },
 
-                  // Title block
+                  /* Title */
+
                   {
                     type: "div",
                     props: {
@@ -173,7 +189,8 @@ async function generate() {
                     }
                   },
 
-                  // Author
+                  /* Author */
+
                   {
                     type: "div",
                     props: {
