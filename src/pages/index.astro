@@ -1,6 +1,5 @@
 ---
 import { getCollection } from "astro:content";
-import profile from "../../profiles/patrikhallen/profile.yaml";
 
 const posts = (await getCollection("insights"))
   .sort((a,b) => b.data.date - a.data.date);
@@ -17,7 +16,7 @@ function readingTime(text){
 <html>
 <head>
 
-<title>Perspectives — {profile.person.name}</title>
+<title>Perspectives — Patrik Hallén</title>
 <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
 
 <style>
@@ -115,8 +114,8 @@ Ideas on structure, transformation and execution.
 </p>
 
 <p style="color:#777;margin-top:20px;">
-{profile.person.name}<br>
-{profile.person.title} 
+Patrik Hallén<br>
+Partner at 
 <a
 href="https://global.andersen.com/consulting"
 target="_blank"
